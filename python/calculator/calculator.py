@@ -29,98 +29,21 @@ class Calculator(tk.Frame):
             self.lhs = self.lhs * -1
             self.result.configure(text=self.lhs)
 
-    def divide(self):
-        print("divide")
-        if self.rhs is not "":
-            self.lhs = float(self.rhs)
-        self.rhs = ""
-        self.operand = "divide"
-
-    def multiply(self):
-        print("multiply")
-        if self.rhs is not "":
-            self.lhs = float(self.rhs)
-        self.rhs = ""
-        self.operand = "multiply"
-
-    def subtract(self):
-        print("subtract")
-        if self.rhs is not "":
-            self.lhs = float(self.rhs)
-        self.rhs = ""
-        self.operand = "subtract"
-
-    def add(self):
-        print("add")
-        if self.rhs is not "":
-            self.lhs = float(self.rhs)
-        self.rhs = ""
-        self.operand = "add"
-
     def equals(self):
         print("equals")
         self.calculate()
-
-    def seven(self):
-        print("seven")
-        self.rhs = self.rhs + "7"
-        self.result.configure(text=self.rhs)
-
-    def eight(self):
-        print("eight")
-        self.rhs = self.rhs + "8"
-        self.result.configure(text=self.rhs)
-
-    def nine(self):
-        print("nine")
-        self.rhs = self.rhs + "9"
-        self.result.configure(text=self.rhs)
-
-    def four(self):
-        print("four")
-        self.rhs = self.rhs + "4"
-        self.result.configure(text=self.rhs)
-
-    def five(self):
-        print("five")
-        self.rhs = self.rhs + "5"
-        self.result.configure(text=self.rhs)
-
-    def six(self):
-        print("six")
-        self.rhs = self.rhs + "6"
-        self.result.configure(text=self.rhs)
-
-    def one(self):
-        print("one")
-        self.rhs = self.rhs + "1"
-        self.result.configure(text=self.rhs)
-
-    def two(self):
-        print("two")
-        self.rhs = self.rhs + "2"
-        self.result.configure(text=self.rhs)
-
-    def three(self):
-        print("three")
-        self.rhs = self.rhs + "3"
-        self.result.configure(text=self.rhs)
-
-    def zero(self):
-        print("zero")
-        self.rhs = self.rhs + "0"
-        self.result.configure(text=self.rhs)
-
-    def decimal(self):
-        print("decimal")
-        self.rhs = self.rhs + "."
-        self.result.configure(text=self.rhs)
 
     def digit(self, digit):
         print(digit)
         self.rhs = self.rhs + digit
         self.result.configure(text=self.rhs)
 
+    def operator(self, operation):
+        print(operation)
+        if self.rhs is not "":
+            self.lhs = float(self.rhs)
+        self.rhs = ""
+        self.operand = operation
 
     def percent(self):
         print("percent")
@@ -163,47 +86,47 @@ class Calculator(tk.Frame):
         self.pm.pack(side=tk.LEFT)
         self.percent = tk.Button(f1, text="%", width=7, command=self.percent)
         self.percent.pack(side=tk.LEFT)
-        self.divide = tk.Button(f1, text="/", width=7, command=self.divide)
+        self.divide = tk.Button(f1, text="/", width=7, command=lambda x="divide": self.operator(x))
         self.divide.pack(side=tk.LEFT)
         f1.pack()
 
         f2 = tk.Frame(self)
         self.seven = tk.Button(f2, text="7", width=7, command=lambda x="7": self.digit(x))
         self.seven.pack(side=tk.LEFT)
-        self.eight = tk.Button(f2, text="8", width=7, command=self.eight)
+        self.eight = tk.Button(f2, text="8", width=7, command=lambda x="8": self.digit(x))
         self.eight.pack(side=tk.LEFT)
-        self.nine = tk.Button(f2, text="9", width=7, command=self.nine)
+        self.nine = tk.Button(f2, text="9", width=7, command=lambda x="9": self.digit(x))
         self.nine.pack(side=tk.LEFT)
-        self.multiply = tk.Button(f2, text="X", width=7, command=self.multiply)
+        self.multiply = tk.Button(f2, text="X", width=7, command=lambda x="multiply": self.operator(x))
         self.multiply.pack(side=tk.LEFT)
         f2.pack()
 
         f3 = tk.Frame(self)
-        self.four = tk.Button(f3, text="4", width=7, command=self.four)
+        self.four = tk.Button(f3, text="4", width=7, command=lambda x="4": self.digit(x))
         self.four.pack(side=tk.LEFT)
-        self.five = tk.Button(f3, text="5", width=7, command=self.five)
+        self.five = tk.Button(f3, text="5", width=7, command=lambda x="5": self.digit(x))
         self.five.pack(side=tk.LEFT)
-        self.six = tk.Button(f3, text="6", width=7, command=self.six)
+        self.six = tk.Button(f3, text="6", width=7, command=lambda x="6": self.digit(x))
         self.six.pack(side=tk.LEFT)
-        self.subtract = tk.Button(f3, text="-", width=7, command=self.subtract)
+        self.subtract = tk.Button(f3, text="-", width=7, command=lambda x="subtract": self.operator(x))
         self.subtract.pack(side=tk.LEFT)
         f3.pack()
 
         f4 = tk.Frame(self)
-        self.one = tk.Button(f4, text="1", width=7, command=self.one)
+        self.one = tk.Button(f4, text="1", width=7, command=lambda x="1": self.digit(x))
         self.one.pack(side=tk.LEFT)
-        self.two = tk.Button(f4, text="2", width=7, command=self.two)
+        self.two = tk.Button(f4, text="2", width=7, command=lambda x="2": self.digit(x))
         self.two.pack(side=tk.LEFT)
-        self.three = tk.Button(f4, text="3", width=7, command=self.three)
+        self.three = tk.Button(f4, text="3", width=7, command=lambda x="3": self.digit(x))
         self.three.pack(side=tk.LEFT)
-        self.add = tk.Button(f4, text="+", width=7, command=self.add)
+        self.add = tk.Button(f4, text="+", width=7, command=lambda x="add": self.operator(x))
         self.add.pack(side=tk.LEFT)
         f4.pack()
 
         f5 = tk.Frame(self)
-        self.zero = tk.Button(f5, text="0", width=15, command=self.zero)
+        self.zero = tk.Button(f5, text="0", width=15, command=lambda x="0": self.digit(x))
         self.zero.pack(side=tk.LEFT)
-        self.decimal = tk.Button(f5, text=".", width=7, command=self.decimal)
+        self.decimal = tk.Button(f5, text=".", width=7, command=lambda x=".": self.digit(x))
         self.decimal.pack(side=tk.LEFT)
         self.equals = tk.Button(f5, text="=", width=7, command=self.equals)
         self.equals.pack(side=tk.LEFT)
