@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkmacosx import Button
 
 
 class Calculator(tk.Frame):
@@ -11,6 +12,11 @@ class Calculator(tk.Frame):
     rhs = ""
     total = 0
     operand = None
+    small_width = 55
+    large_width = 110
+    height = 60
+    result_font = ("Helvetica", 50)
+    label_font = 10
 
 
     def clear(self):
@@ -52,6 +58,7 @@ class Calculator(tk.Frame):
             self.result.configure(text=self.rhs)
         else:
             self.total = self.total / 100
+            self.rhs = self.total
             self.result.configure(text=self.total)
 
     def calculate(self):
@@ -74,52 +81,55 @@ class Calculator(tk.Frame):
         self.rhs = ""
         self.result.configure(text=total)
 
-    def makeButton(self, frame, text, width, command):
-        self.button = tk.Button(frame, text=text, width=width, command=command)
+    def makeButton(self, frame, text, width, height, command, bg, fg):
+#        self.button = tk.Button(frame, text=text, width=width, command=command, highlightbackground=bg, fg=fg)
+        self.button = Button(frame, text=text, width=width, height=height, command=command, bg=bg, fg=fg)
         self.button.pack(side=tk.LEFT)
 
     def createWidgets(self):
-        self.result = tk.Label(self, text="0", width=30, anchor=tk.E)
-        self.result.pack()
+        print(self.winfo_geometry())
+        self.result = tk.Label(self, text="0",anchor=tk.E, font=self.result_font, bg="#3C3C3C", fg="#D4D4D2")
+        self.result.pack(fill="both", expand=1)
 
         f1 = tk.Frame(self)
-        self.makeButton(f1, "C", 7, self.clear)
-        self.makeButton(f1, "+/-", 7, self.togglepm)
-        self.makeButton(f1, "%", 7, self.percent)
-        self.makeButton(f1, "/", 7, lambda x="divide": self.operator(x))
-        f1.pack()
+        self.makeButton(f1, "C", self.small_width, self.height, self.clear, "#696969", "#D4D4D2")
+        self.makeButton(f1, "+/-", self.small_width, self.height, self.togglepm, "#696969", "#D4D4D2")
+        self.makeButton(f1, "%", self.small_width, self.height, self.percent, "#696969", "#D4D4D2")
+        self.makeButton(f1, "/", self.small_width, self.height, lambda x="divide": self.operator(x), "#FF9500", "#D4D4D2")
+        f1.pack(fill="both", expand=1)
 
         f2 = tk.Frame(self)
-        self.makeButton(f2, "7", 7, lambda x="7": self.digit(x))
-        self.makeButton(f2, "8", 7, lambda x="8": self.digit(x))
-        self.makeButton(f2, "9", 7, lambda x="9": self.digit(x))
-        self.makeButton(f2, "X", 7, lambda x="multiply": self.operator(x))
-        f2.pack()
+        self.makeButton(f2, "7", self.small_width, self.height, lambda x="7": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f2, "8", self.small_width, self.height, lambda x="8": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f2, "9", self.small_width, self.height, lambda x="9": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f2, "X", self.small_width, self.height, lambda x="multiply": self.operator(x), "#FF9500", "#D4D4D2")
+        f2.pack(fill="both", expand=1)
 
         f3 = tk.Frame(self)
-        self.makeButton(f3, "4", 7, lambda x="4": self.digit(x))
-        self.makeButton(f3, "5", 7, lambda x="5": self.digit(x))
-        self.makeButton(f3, "6", 7, lambda x="6": self.digit(x))
-        self.makeButton(f3, "-", 7, lambda x="subtract": self.operator(x))
-        f3.pack()
+        self.makeButton(f3, "4", self.small_width, self.height, lambda x="4": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f3, "5", self.small_width, self.height, lambda x="5": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f3, "6", self.small_width, self.height, lambda x="6": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f3, "-", self.small_width, self.height, lambda x="subtract": self.operator(x), "#FF9500", "#D4D4D2")
+        f3.pack(fill="both", expand=1)
 
         f4 = tk.Frame(self)
-        self.makeButton(f4, "1", 7, lambda x="1": self.digit(x))
-        self.makeButton(f4, "2", 7, lambda x="2": self.digit(x))
-        self.makeButton(f4, "3", 7, lambda x="3": self.digit(x))
-        self.makeButton(f4, "+", 7, lambda x="add": self.operator(x))
-        f4.pack()
+        self.makeButton(f4, "1", self.small_width, self.height, lambda x="1": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f4, "2", self.small_width, self.height, lambda x="2": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f4, "3", self.small_width, self.height, lambda x="3": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f4, "+", self.small_width, self.height, lambda x="add": self.operator(x), "#FF9500", "#D4D4D2")
+        f4.pack(fill="both", expand=1)
 
         f5 = tk.Frame(self)
-        self.makeButton(f5, "0", 15, lambda x="0": self.digit(x))
-        self.makeButton(f5, ".", 7, lambda x=".": self.digit(x))
-        self.makeButton(f5, "=", 7, self.equals)
-        f5.pack()
+        self.makeButton(f5, "0", self.large_width, self.height, lambda x="0": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f5, ".", self.small_width, self.height, lambda x=".": self.digit(x), "#8C8C8C", "#D4D4D2")
+        self.makeButton(f5, "=", self.small_width, self.height, self.equals, "#FF9500", "#D4D4D2")
+        f5.pack(fill="both", expand=1)
 
-        self.quitButton = tk.Button(self, text='Quit', command=self.quit)
-        self.quitButton.pack()
+        #self.quitButton = tk.Button(self, text='Quit', command=self.quit)
+        #self.quitButton.pack()
 
 
 app = Calculator()
 app.master.title('Simple Calculator')
+app.master.geometry("%dx%d%+d%+d" % (220, 365, 250, 125))
 app.mainloop()
