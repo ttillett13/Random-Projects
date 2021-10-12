@@ -8,6 +8,7 @@ from tkmacosx import Button
 class Sudoku(tk.Frame):
 
     size = 9
+    square_size = size / 3
     entries = {}
     puzzle = []
     solution = []
@@ -59,12 +60,11 @@ class Sudoku(tk.Frame):
                     item = tk.Entry(f, width="2")
                     item.pack(side=tk.LEFT, fill="x")
                     self.entries[(i,j)] = item
-                if (j+1) % 3 == 0:
+                if (j+1) % self.square_size == 0:
                     sep = tk.ttk.Separator(f, orient='vertical')
                     sep.pack(side=tk.LEFT, fill="y")
             f.pack()
-            #f.pack(fill="both", expand=1)
-            if (i+1) % 3 == 0:
+            if (i+1) % self.square_size == 0:
                 sep = tk.ttk.Separator(self, orient='horizontal')
                 sep.pack(fill="x")
         f = tk.Frame(self)
@@ -78,9 +78,8 @@ class Sudoku(tk.Frame):
         f.pack(fill="both")
 
 
-sudoku = sg.SudokuGenerator("easy")
+sudoku = sg.SudokuGenerator("hard")
 app = Sudoku(sudoku.puzzle, sudoku.solution)
 app.master.title('Sudoku')
 app.master.geometry("%dx%d%+d%+d" % (300, 330, 250, 125))
 app.mainloop()
-#print(attempt)

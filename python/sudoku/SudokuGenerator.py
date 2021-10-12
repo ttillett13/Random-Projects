@@ -38,11 +38,11 @@ class SudokuGenerator:
             item = list(tmp_valid)[index]
             self.solution[row][col] = item
             change_back = set()
-            good = self.eliminate_row(row, item, change_back, self.possibilities)
+            good = self.eliminate_row(row, item, self.possibilities, change_back)
             if good:
-                good = self.eliminate_col(col, item, change_back, self.possibilities)
+                good = self.eliminate_col(col, item, self.possibilities, change_back)
                 if good:
-                    good = self.eliminate_square(row, col, item, change_back, self.possibilities)
+                    good = self.eliminate_square(row, col, item, self.possibilities, change_back)
                     if good:
                         new_row = row
                         new_col = col + 1
@@ -60,31 +60,33 @@ class SudokuGenerator:
             self.solution[row][col] = 0
             return False
 
-    def eliminate_row(self, row, item, change_back, possibilities):
+    def eliminate_row(self, row, item, possibilities, change_back=None):
         good = True
         for i in range(self.size):
             valid = possibilities[(row, i)]
             if item in valid:
                 valid.remove(item)
-                change_back.add((row, i))
+                if change_back:
+                    change_back.add((row, i))
                 if len(valid) < 1 and self.solution[row][i] == 0:
                     good = False
                     break
         return good
 
-    def eliminate_col(self, col, item, change_back, possibilities):
+    def eliminate_col(self, col, item, possibilities, change_back=None):
         good = True
         for i in range(self.size):
             valid = possibilities[(i, col)]
             if item in valid:
                 valid.remove(item)
-                change_back.add((i, col))
+                if change_back:
+                    change_back.add((i, col))
                 if len(valid) < 1 and self.solution[i][col] == 0:
                     good = False
                     break
         return good
 
-    def eliminate_square(self, row, col, item, change_back, possibilities):
+    def eliminate_square(self, row, col, item, possibilities, change_back=None):
         good = True
         square_size = int(self.size / 3)
         row_min = int(row / square_size) * square_size
@@ -98,7 +100,8 @@ class SudokuGenerator:
                 valid = possibilities[(i, j)]
                 if item in valid:
                     valid.remove(item)
-                    change_back.add((i, j))
+                    if change_back:
+                        change_back.add((i, j))
                     if len(valid) < 1 and self.solution[i][j] == 0:
                         good = False
                         break
@@ -146,7 +149,6 @@ class SudokuGenerator:
     def solvable(self):
         possibilities = self.get_possibilities()
         n = len(possibilities.keys())
-        change_back = set()
         while n > 0:
             good = False
             count = 0
@@ -154,9 +156,9 @@ class SudokuGenerator:
                 valid = possibilities[(row, col)]
                 if len(valid) == 1:
                     item = list(valid)[0]
-                    self.eliminate_row(row, item, change_back, possibilities)
-                    self.eliminate_col(col, item, change_back, possibilities)
-                    self.eliminate_square(row, col, item, change_back, possibilities)
+                    self.eliminate_row(row, item, possibilities)
+                    self.eliminate_col(col, item, possibilities)
+                    self.eliminate_square(row, col, item, possibilities)
                     good = True
                 elif len(valid) > 1:
                     count += 1
@@ -168,14 +170,13 @@ class SudokuGenerator:
     def get_possibilities(self):
         possibilities = {}
         self.init_possibilities(possibilities)
-        change_back = set()
         for row in range(self.size):
             for col in range(self.size):
                 item = self.puzzle[row][col]
                 if item != 0:
-                    self.eliminate_row(row, item, change_back, possibilities)
-                    self.eliminate_col(col, item, change_back, possibilities)
-                    self.eliminate_square(row, col, item, change_back, possibilities)
+                    self.eliminate_row(row, item, possibilities)
+                    self.eliminate_col(col, item, possibilities)
+                    self.eliminate_square(row, col, item, possibilities)
         return possibilities
 
 
