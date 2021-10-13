@@ -66,7 +66,7 @@ class SudokuGenerator:
             valid = possibilities[(row, i)]
             if item in valid:
                 valid.remove(item)
-                if change_back:
+                if change_back is not None:
                     change_back.add((row, i))
                 if len(valid) < 1 and self.solution[row][i] == 0:
                     good = False
@@ -79,7 +79,7 @@ class SudokuGenerator:
             valid = possibilities[(i, col)]
             if item in valid:
                 valid.remove(item)
-                if change_back:
+                if change_back is not None:
                     change_back.add((i, col))
                 if len(valid) < 1 and self.solution[i][col] == 0:
                     good = False
@@ -100,7 +100,7 @@ class SudokuGenerator:
                 valid = possibilities[(i, j)]
                 if item in valid:
                     valid.remove(item)
-                    if change_back:
+                    if change_back is not None:
                         change_back.add((i, j))
                     if len(valid) < 1 and self.solution[i][j] == 0:
                         good = False
